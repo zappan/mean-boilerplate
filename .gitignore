@@ -1,0 +1,7 @@
+*.bak
+*.log
+build/
+node_modules/
+bower_components/
+server/public/
+karma_html/
