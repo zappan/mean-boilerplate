@@ -1,0 +1,16 @@
+{
+  "name": "MeanBoilerplateApp",
+  "version": "0.1.0",
+  "authors": [
+    "Tomislav Capan <tomislav.capan@gmail.com>"
+  ],
+  "description": "MEAN Boilerplate App",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.2.16",
+    "angular-route": "~1.2.16",
+    "angular-resource": "~1.2.16",
+    "angular-ui-utils": "~0.1.1"
+  }
+}
