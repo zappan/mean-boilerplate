@@ -4,6 +4,67 @@ MEAN Boilerplate
 MEAN stack boilerplate with build procedures in place.
 
 
+## Goals
+
+This MEAN stack boilerplate offers to be a starting point for new projects,
+with the following goals:
+
+* Separated server-side and client-side source files within the same repository
+* Build process for client-side code supporting the following two scenarios:
+  * application and assets compiled into a `dist/` directory to put on a CDN
+  * application and assets compiled to `server/public` to be served by Express
+* Separate build chains for:
+  * _development_ - all client-side source files served directly as source files
+    for easier locating of errors in development, and immediate availability of
+    source code changes in the browser, because no need for a watcher to run a
+    build (unless new files added, or shell HTML changed which requires a rebuild)
+  * _debug_ - all client-side source files concatenated, but not minified, to
+    verify the build and reduce latency, while keeping the ability to track the
+    source code and errors where they occurred in the source (testing deployment)
+  * _release_ - all client-side source files concatenated and minified to increase
+    download speed and minimize bandwidth use (staging/production deployment)
+* Automatic pick-up of source code changes in development mode
+
+
+All these requirements were identified through experience on past projects,
+and now extracted into this boilerplate. Although this is not the first MEAN
+boilerplate out there, it tries to offer all things above combined together
+as its unique value.
+
+
+## Out of the Box configured features:
+
+* Configured Express 4.0 app with routing, controllers and MongoDB data access
+* MongoDB passthrough API to access data through direct mapping routes to
+  MongoDB collections to kick-start your development
+* Single Page Applications (SPA) support:
+  * serving the application shell for `text/html` requests
+  * serving JSON API data for `application/json` requests
+  * through filtering requests by type, we're allowing the application and the
+    API to share the same URLs with transparent serving of the proper content
+* JSON API inspection from the browser through request type override
+  * use `?format=json` query string parameter to fetch the API data in the browser
+* Wired-up Angular application initialization, data fetching functionality,
+  and serving the homepage as a starting point for further development
+* Modular approach to Angular application structuring, based on ideas from
+  the following articles:
+  [[1](http://cliffmeyers.com/blog/2013/4/21/code-organization-angularjs-javascript),
+  [2](http://www.artandlogic.com/blog/2013/05/ive-been-doing-it-wrong-part-1-of-3/),
+  [3](https://medium.com/opinionated-angularjs/9f01b594bf06),
+  [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
+* _[Coming soon]:_ Automatic client-side app rebuild through a watcher on new
+  source files added, or SPA shell HTML changes
+* _[Coming soon]:_ LESS wired-up as a CSS preprocessor.
+* _[Coming soon]:_ Wired-up server-side and client-side BDD style testing
+  built into build automation chains
+* Build automation
+
+
+_LESS is chosen over SASS to achieve the goal of no-rebuild in `development`
+mode, as it has the ability to be compiled and run in the browser (in `debug`
+and `release` builds, LESS gets precompiled into CSS during the build)._
+
+
 ## Prerequisites
 
 Boilerplate expects that you have the necessary platforms and tools installed
@@ -27,13 +88,70 @@ build and do the project test-run (Linux and Mac):
     $ grunt
     $ ./dev
 
+If everything went well, you should have boilerplate project up and running,
+i.e. Express app listening on port 3000 serving your Angular app.
+
+Additionally, running in development mode is configured to automatically
+refresh (restart) Express app on any source code changes, while changes
+to the client-side code are automatically picked up on browser refresh,
+as server is serving `client/src` content directly (as it's symlinked).
+
+
 _If you're a Windows user, please see the content of `./dev` script,
 and replicate that for your Windows environment. It mainly boils down
 to setting some environment variables (see `./scripts/envvars.sh`) and
-running the `npm dev` task (see `./package.json`)._
+running the `npm dev` task (see `./package.json`). Also, to run the Angular
+app in `dev` mode, replicate `scripts/devsymlink.sh` functionality: symlink
+or copy `client/src` and `client/vendor` directories into `server/public`
+to make source assets available to Express app to serve._
 
-If everything went well, you should have boilerplate project listening
-on port 3000 serving your Angular app.
+
+## Grunt Build Chains
+
+* `$ grunt dev` - development build - also a default task `$ grunt`
+* `$ grunt debug` - debug build.
+* `$ grunt release` - production build
+
+Results of debug and release builds are compiled client-side assets that are
+put in `/dist` directory, and also copied to `server/public` for Express app.
+
+That allows the flexibility of CI and deployment automation, which may publish
+assets to CDN and use reverse proxy (or some other method) for serving those
+static files without actually hitting the Express app, with Express app always
+ready to serve those assets as well.
+
+
+## Configuration
+
+To do the basic configuration, check out and adjust the following files:
+
+* `bower.json` - adjust your application name, description, version, author, license, etc.
+* `package.json` - adjust your application name, description, version, author, license, etc.
+  * `name` - used in bootstrapping the application:
+    * server-side part uses it mainly for logging to identify the app
+    * client-side part uses it for bootstrapping the app (by `Gruntfile.js` to
+      construct `@@appStartCmd` in `/client/src/index.hjs`), and as the main
+      namespace for all IIFE modules (so, make sure to update all source files
+      namespaces to match the given name).
+  * `description` - used as HTML page title
+  * `appFilename` - filename that will be given to compiled client-side assets,
+    with the respective extension added (`.js`, `.css`, `.min.js`, `.min.css`)
+* `scripts/envvars.sh` - configure all application parameters there - port to run
+  the Express application on, MongoDB connection string, etc., and add your own
+  configuration settings you will use (e.g. Redis, outbound email settings, etc.)
+* `LICENSE` - adjust the license you're using for your project
+
+
+## Bower Use Explanation
+
+Bower is used to easily fetch client-side dependencies, and update them later on.
+
+Still, the repository is configured that client-side dependencies get pushed to
+the repository, but after being preprocessed with `grunt bower` task, picking up
+only dist files into `client/vendor`. The reason for that is to explicitly present
+the organization/structure of the `client/` directory.
+
+If you wish to change that behavior, just adjust `.gitignore` file to your needs.
 
 
 ## History
