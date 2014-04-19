@@ -12,7 +12,7 @@ with the following goals:
 * Separated server-side and client-side source files within the same repository
 * Build process for client-side code supporting the following two scenarios:
   * application and assets compiled into a `dist/` directory to put on a CDN
-  * application and assets compiled to `server/public` to be served by Express
+  * application and assets compiled to `server/public/` to be served by Express
 * Separate build chains for:
   * _development_ - all client-side source files served directly as source files
     for easier locating of errors in development, and immediate availability of
@@ -24,6 +24,7 @@ with the following goals:
   * _release_ - all client-side source files concatenated and minified to increase
     download speed and minimize bandwidth use (staging/production deployment)
 * Automatic pick-up of source code changes in development mode
+* Automatic cache-busting of compiled client-side app and CSS in release mode
 
 
 All these requirements were identified through experience on past projects,
@@ -91,10 +92,10 @@ build and do the project test-run (Linux and Mac):
 If everything went well, you should have boilerplate project up and running,
 i.e. Express app listening on port 3000 serving your Angular app.
 
-Additionally, running in development mode is configured to automatically
+Additionally, running in _development_ mode is configured to automatically
 refresh (restart) Express app on any source code changes, while changes
 to the client-side code are automatically picked up on browser refresh,
-as server is serving `client/src` content directly (as it's symlinked).
+as server is serving `client/src/` content directly (as it's symlinked).
 
 
 _If you're a Windows user, please see the content of `./dev` script,
@@ -102,7 +103,7 @@ and replicate that for your Windows environment. It mainly boils down
 to setting some environment variables (see `./scripts/envvars.sh`) and
 running the `npm dev` task (see `./package.json`). Also, to run the Angular
 app in `dev` mode, replicate `scripts/devsymlink.sh` functionality: symlink
-or copy `client/src` and `client/vendor` directories into `server/public`
+or copy `client/src/` and `client/vendor/` directories into `server/public/`
 to make source assets available to Express app to serve._
 
 
@@ -113,11 +114,11 @@ to make source assets available to Express app to serve._
 * `$ grunt release` - production build
 
 Results of debug and release builds are compiled client-side assets that are
-put in `/dist` directory, and also copied to `server/public` for Express app.
+put in `dist/` directory, and also copied to `server/public/` for Express app.
 
 That allows the flexibility of CI and deployment automation, which may publish
 assets to CDN and use reverse proxy (or some other method) for serving those
-static files without actually hitting the Express app, with Express app always
+static files without actually hitting the Express app, with having Express app
 ready to serve those assets as well.
 
 
@@ -148,7 +149,7 @@ Bower is used to easily fetch client-side dependencies, and update them later on
 
 Still, the repository is configured that client-side dependencies get pushed to
 the repository, but after being preprocessed with `grunt bower` task, picking up
-only dist files into `client/vendor`. The reason for that is to explicitly present
+only dist files into `client/vendor/`. The reason for that is to explicitly present
 the organization/structure of the `client/` directory.
 
 If you wish to change that behavior, just adjust `.gitignore` file to your needs.
