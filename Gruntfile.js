@@ -47,6 +47,7 @@ module.exports = function (grunt) {
       debugbuild  : { options: { title: '<%= config.appName %> Debug', message: 'Build completed successfully' } },
       releasebuild: { options: { title: '<%= config.appName %> Release', message: 'Build completed successfully' } },
       testingbuild: { options: { title: '<%= config.appName %> Testing', message: 'Build completed successfully' } },
+      devrebuild  : { options: { title: '<%= config.appName %> Dev', message: 'Rebuild completed successfully' } },
     },
 
     // cleaning target directory
@@ -56,6 +57,26 @@ module.exports = function (grunt) {
       target  : ['server/public'],
     },
 
+    watch: {
+      options: {
+        spawn: false,
+      },
+      appShell: {
+        files: ['client/src/index.hjs'],
+        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'], //all the tasks are run dynamically during the watch event handler
+        options: { event: 'changed', },
+      },
+      clientSrc: {
+        files: ['client/src/js/**/*.js', 'client/vendor/**/*.js'],
+        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'], //all the tasks are run dynamically during the watch event handler
+        options: { event: ['added', 'deleted'], },
+      },
+      bower: {
+        files: ['bower_components'],
+        tasks: ['bower'], //all the tasks are run dynamically during the watch event handler
+        options: { event: ['added', 'deleted'], },
+      },
+    },
 
     // ### BUILD CHAIN TASKS
 
@@ -357,6 +378,7 @@ module.exports = function (grunt) {
     'scriptlinker:vendor',
     'scriptlinker:srcJs',
     'shell:devSymlink',
+    'watch',
   ]);
 
   // js-hints source, cleans build dir, builds client app file with templates, LESS to CSS

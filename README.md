@@ -54,8 +54,8 @@ as its unique value.
   [2](http://www.artandlogic.com/blog/2013/05/ive-been-doing-it-wrong-part-1-of-3/),
   [3](https://medium.com/opinionated-angularjs/9f01b594bf06),
   [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
-* _[Coming soon]:_ Automatic client-side app rebuild through a watcher on new
-  source files added, or SPA shell HTML changes
+* Automatic client-side app rebuild through a watcher on new or deleted source
+  files or vendor libs, or application shell HTML changes
 * LESS wired-up as a CSS preprocessor
   ([Why not SASS?](docs/TechnicalDetails.md#choosing-less-over-sass))
 * _[Coming soon]:_ Wired-up server-side and client-side BDD style testing
@@ -138,6 +138,9 @@ More technical details can be found in a [separate document](docs/TechnicalDetai
 
 ## History
 
+
+  * **0.1.2** - [2014-04-20] Configured Grunt watchers on app shell changes and
+    added/removed JS source files and vendor libs
   * **0.1.1** - [2014-04-20] Wired up LESS as a CSS preprocessor
   * **0.1.0** - [2014-04-18] Initial release
 

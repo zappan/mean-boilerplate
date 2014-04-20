@@ -2,7 +2,7 @@
   "name": "MeanBoilerplateApp",
   "description": "MEAN Boilerplate App",
   "appFilename": "meanbpapp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "server.js",
   "scripts": {
     "dev": "node_modules/node-dev/bin/node-dev server",
