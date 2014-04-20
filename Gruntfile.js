@@ -106,7 +106,12 @@ module.exports = function (grunt) {
 
     bower: {
       dev: {
-        dest: 'client/vendor'
+        dest: 'client/vendor',
+        options: {
+          packageSpecific: {
+            'angular-mocks': { dest: 'client/test/vendor' }
+          }
+        },
       }
     },
 
@@ -348,13 +353,14 @@ module.exports = function (grunt) {
     karma:{
       dev: {
         configFile:'client/karma.conf.js',
-        singleRun: false,
-        autoWatch: true,
+        singleRun : false,
+        autoWatch : true,
       },
-      ci: {
+      singleRun: {
         configFile: 'client/karma.conf.js',
-        singleRun: true,
-        autoWatch: false,
+        singleRun : true,
+        autoWatch : false,
+        browsers  : ['PhantomJS'],
       }
     }
   });
@@ -365,7 +371,7 @@ module.exports = function (grunt) {
   // ###################################################################################
 
   grunt.registerTask('testServer', ['jshint:server', 'jshint:testServer', 'clean:target', 'replace:dev', 'shell:devSymlink', 'simplemocha:server']);
-  grunt.registerTask('testClient', ['jshint:client', 'jshint:testClient', 'karma:ci']);
+  grunt.registerTask('testClient', ['jshint:client', 'jshint:testClient', 'karma:singleRun']);
   grunt.registerTask('test', ['jshint:grunt', 'testServer', 'testClient']);
 
 
@@ -384,6 +390,7 @@ module.exports = function (grunt) {
   // js-hints source, cleans build dir, builds client app file with templates, LESS to CSS
   grunt.registerTask('_buildApp', [
     'jshint',
+    'karma:singleRun',
     'clean',
     'bower',
     'less:build',

@@ -69,7 +69,7 @@ Boilerplate expects that you have the necessary platforms and tools installed
 (Git, Node.js, MongoDB). It also expect some global npm modules to be present
 on the system, so if you don't have them already, install the following:
 
-    $ sudo npm install -g grunt-cli bower
+    $ sudo npm install -g grunt-cli bower phantomjs
 
 
 ## Getting Started
@@ -131,6 +131,14 @@ To do the basic configuration, check out and adjust the following files:
   configuration settings you will use (e.g. Redis, outbound email settings, etc.)
 * `client/src/styles/style.less` - adjust application base path relative to a
   domain root, if necessary (empty string if app is served from a domain root)
+* `client/src/.jshintrc` - adjust last entry under `globals` to match the app name
+  defined in `package.json` (IIFE modules namespace)
+* `client/src/**/*.js` - adjust IIFE modules namespace to match the app name
+  defined in `package.json`
+* `client/test/.jshintrc` - adjust last entry under `globals` to match the app name
+  defined in `package.json` (IIFE modules namespace)
+* `client/test/**/*.js` - adjust IIFE modules namespace to match the app name
+  defined in `package.json`
 * `LICENSE` - adjust the license you're using for your project
 
 More technical details can be found in a [separate document](docs/TechnicalDetails.md).
