@@ -55,6 +55,7 @@ module.exports = function (grunt) {
       build   : ['build/*'],
       buildApp: ['build/app'],
       target  : ['server/public'],
+      karma   : ['karma_html'],
     },
 
     watch: {
@@ -63,17 +64,17 @@ module.exports = function (grunt) {
       },
       appShell: {
         files: ['client/src/index.hjs'],
-        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'], //all the tasks are run dynamically during the watch event handler
+        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'],
         options: { event: 'changed', },
       },
-      clientSrc: {
+      clientJs: {
         files: ['client/src/js/**/*.js', 'client/vendor/**/*.js'],
-        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'], //all the tasks are run dynamically during the watch event handler
+        tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'],
         options: { event: ['added', 'deleted'], },
       },
       bower: {
         files: ['bower_components'],
-        tasks: ['bower'], //all the tasks are run dynamically during the watch event handler
+        tasks: ['bower'],
         options: { event: ['added', 'deleted'], },
       },
     },
@@ -336,13 +337,14 @@ module.exports = function (grunt) {
     // #### TESTING
 
     // server-side tests
-    simplemocha: {
+    mochaTest: {
       options: {
-        timeout    : 3000,
-        ignoreLeaks: false,
-        globals    : ['NODE_CONFIG'],
-        ui         : 'bdd',
-        reporter   : 'dot',
+        globals          : ['NODE_CONFIG'],
+        reporter         : 'dot',
+        ui               : 'bdd',
+        timeout          : 3000,
+        ignoreLeaks      : false,
+        clearRequireCache: true
       },
       server: {
         src: ['server/test/init.js', 'server/test/**/*.spec.js']
@@ -370,9 +372,9 @@ module.exports = function (grunt) {
   // ### BUILD CHAINS DEFINITIONS (compiling static assets)
   // ###################################################################################
 
-  grunt.registerTask('testServer', ['jshint:server', 'jshint:testServer', 'clean:target', 'replace:dev', 'shell:devSymlink', 'simplemocha:server']);
+  grunt.registerTask('testServer', ['jshint:server', 'jshint:testServer', 'clean:target', 'replace:dev', 'shell:devSymlink', 'mochaTest']);
   grunt.registerTask('testClient', ['jshint:client', 'jshint:testClient', 'karma:singleRun']);
-  grunt.registerTask('test', ['jshint:grunt', 'testServer', 'testClient']);
+  grunt.registerTask('testRun',    ['jshint:grunt', 'testServer', 'testClient']);
 
 
   // js-hints source, cleans build dir, hooks dev paths into HTML app shell,
@@ -390,6 +392,7 @@ module.exports = function (grunt) {
   // js-hints source, cleans build dir, builds client app file with templates, LESS to CSS
   grunt.registerTask('_buildApp', [
     'jshint',
+    'mochaTest',
     'karma:singleRun',
     'clean',
     'bower',
