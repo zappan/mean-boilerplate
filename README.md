@@ -11,7 +11,7 @@ with the following goals:
 
 * Separated server-side and client-side source files within the same repository
 * Build process for client-side code supporting the following two scenarios:
-  * application and assets compiled into a `dist/` directory to put on a CDN
+  * application and assets compiled into a `build/dist/` directory to put on a CDN
   * application and assets compiled to `server/public/` to be served by Express
 * Separate build chains for:
   * _development_ - all client-side source files served directly as source files
@@ -24,7 +24,8 @@ with the following goals:
   * _release_ - all client-side source files concatenated and minified to increase
     download speed and minimize bandwidth use (staging/production deployment)
 * Automatic pick-up of source code changes in development mode
-* Automatic cache-busting of compiled client-side app and CSS in release mode
+* Automatic cache-busting of compiled client-side JS and CSS in _debug_ and
+  _release_ mode
 
 
 All these requirements were identified through experience on past projects,
@@ -55,15 +56,11 @@ as its unique value.
   [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
 * _[Coming soon]:_ Automatic client-side app rebuild through a watcher on new
   source files added, or SPA shell HTML changes
-* _[Coming soon]:_ LESS wired-up as a CSS preprocessor.
+* LESS wired-up as a CSS preprocessor
+  ([Why not SASS?](docs/TechnicalDetails.md#choosing-less-over-sass))
 * _[Coming soon]:_ Wired-up server-side and client-side BDD style testing
   built into build automation chains
 * Build automation
-
-
-_LESS is chosen over SASS to achieve the goal of no-rebuild in `development`
-mode, as it has the ability to be compiled and run in the browser (in `debug`
-and `release` builds, LESS gets precompiled into CSS during the build)._
 
 
 ## Prerequisites
@@ -84,7 +81,8 @@ run the following to pull all dependencies:
     $ bower install
 
 Now that you have dependencies installed, you may run your first
-build and do the project test-run (Linux and Mac):
+build and do the project test-run (Linux and Mac; Windows users
+[see here](docs/TechnicalDetails.md#getting-started-for-windows-users)):
 
     $ grunt
     $ ./dev
@@ -98,23 +96,14 @@ to the client-side code are automatically picked up on browser refresh,
 as server is serving `client/src/` content directly (as it's symlinked).
 
 
-_If you're a Windows user, please see the content of `./dev` script,
-and replicate that for your Windows environment. It mainly boils down
-to setting some environment variables (see `./scripts/envvars.sh`) and
-running the `npm dev` task (see `./package.json`). Also, to run the Angular
-app in `dev` mode, replicate `scripts/devsymlink.sh` functionality: symlink
-or copy `client/src/` and `client/vendor/` directories into `server/public/`
-to make source assets available to Express app to serve._
-
-
 ## Grunt Build Chains
 
 * `$ grunt dev` - development build - also a default task `$ grunt`
 * `$ grunt debug` - debug build.
 * `$ grunt release` - production build
 
-Results of debug and release builds are compiled client-side assets that are
-put in `dist/` directory, and also copied to `server/public/` for Express app.
+Results of _debug_ and _release_ builds are compiled client-side assets that are
+put in `build/dist/` directory, and also copied to `server/public/` for Express app.
 
 That allows the flexibility of CI and deployment automation, which may publish
 assets to CDN and use reverse proxy (or some other method) for serving those
@@ -140,23 +129,16 @@ To do the basic configuration, check out and adjust the following files:
 * `scripts/envvars.sh` - configure all application parameters there - port to run
   the Express application on, MongoDB connection string, etc., and add your own
   configuration settings you will use (e.g. Redis, outbound email settings, etc.)
+* `client/src/styles/style.less` - adjust application base path relative to a
+  domain root, if necessary (empty string if app is served from a domain root)
 * `LICENSE` - adjust the license you're using for your project
 
-
-## Bower Use Explanation
-
-Bower is used to easily fetch client-side dependencies, and update them later on.
-
-Still, the repository is configured that client-side dependencies get pushed to
-the repository, but after being preprocessed with `grunt bower` task, picking up
-only dist files into `client/vendor/`. The reason for that is to explicitly present
-the organization/structure of the `client/` directory.
-
-If you wish to change that behavior, just adjust `.gitignore` file to your needs.
+More technical details can be found in a [separate document](docs/TechnicalDetails.md).
 
 
 ## History
 
+  * **0.1.1** - [2014-04-20] Wired up LESS as a CSS preprocessor
   * **0.1.0** - [2014-04-18] Initial release
 
 

@@ -6,6 +6,7 @@
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
   <title>{{ appTitle }}</title>
   @@appCss
+  @@lessJs
   @@vendorJs
 </head>
 <body ng-view>

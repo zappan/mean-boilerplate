@@ -106,20 +106,6 @@ module.exports = function (grunt) {
           ]
         }
       },
-      srcCss: {
-        options: {
-          startTag: '<!-- STYLES -->\n',
-          endTag  : '  <!-- STYLES END -->',
-          fileTmpl: '  <link rel="stylesheet" type="text/css" href="/assets/%s" media="all"/>\n',
-          appRoot : '<%= config.client.root %>/',
-        },
-        files: {
-          // Target-specific file lists and/or options go here.
-          '<%= config.build.target %>/index.hjs': [
-            '<%= config.client.src %>/styles/**/*.css'
-          ]
-        }
-      },
       vendor: {
         options: {
           startTag: '<!-- VENDOR -->\n',
@@ -166,7 +152,8 @@ module.exports = function (grunt) {
           variables: {
             appStartCmd : '<%= config.appStartCmd %>',
             appJs       : '<!-- SCRIPTS -->\n  <!-- SCRIPTS END -->',
-            appCss      : '<!-- STYLES -->\n  <!-- STYLES END -->',
+            appCss      : '<link rel="stylesheet/less" type="text/css" href="/assets/src/styles/style.less" media="all">',
+            lessJs      : '<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.0/less.min.js" type="text/javascript"></script>',
             vendorJs    : '<!-- VENDOR -->\n  <!-- VENDOR END -->',
           },
           force: true
@@ -181,6 +168,7 @@ module.exports = function (grunt) {
             appStartCmd : '<%= config.appStartCmd %>',
             appJs       : '<script src="/assets/js/<%= config.baseFilename %>.js"></script>',
             appCss      : '<link rel="stylesheet" type="text/css" href="/assets/css/<%= config.baseFilename %>.css"/>',
+            lessJs      : '',
             vendorJs    : '<script src="/assets/js/vendor.js"></script>',
           },
           force: true
@@ -195,6 +183,7 @@ module.exports = function (grunt) {
             appStartCmd : '<%= config.appStartCmd %>',
             appJs       : '<script src="/assets/js/<%= config.baseFilename %>.min.js"></script>',
             appCss      : '<link rel="stylesheet" type="text/css" href="/assets/css/<%= config.baseFilename %>.min.css"/>',
+            lessJs      : '',
             vendorJs    : '<script src="/assets/js/vendor.min.js"></script>',
           },
           force: true
@@ -227,11 +216,27 @@ module.exports = function (grunt) {
           '<%= config.client.vendor %>/**/*.js',
         ],
         dest: '<%= config.build.app %>/js/vendor.js'
-      },
-      css: {
-        options: { separator: '' },
+      }
+    },
+
+    less: {
+      build: {
+        options: {
+          paths: ['<%= config.client.src %>/styles']
+        },
         files: {
-          '<%= config.build.app %>/css/<%= config.baseFilename %>.css': ['<%= config.client.src %>/styles/**/*.css'],
+          '<%= config.build.app %>/css/<%= config.baseFilename %>.css' : '<%= config.client.src %>/styles/style.less'
+        }
+      }
+    },
+
+    cssmin: {
+      options: {
+        banner: '/*! <%= config.appName %> - v<%= config.appVer %> - <%= grunt.template.today("yyyy-mm-dd") %> */'
+      },
+      release: {
+        files : {
+          '<%= config.build.app %>/css/<%= config.baseFilename %>.min.css' : ['<%= config.build.app %>/css/<%= config.baseFilename %>.css'],
         }
       }
     },
@@ -251,17 +256,6 @@ module.exports = function (grunt) {
         src: '<%= config.build.app %>/js/vendor.js',
         dest: '<%= config.build.app %>/js/vendor.min.js',
       },
-    },
-
-    cssmin: {
-      options: {
-        banner: '/*! <%= config.appName %> - v<%= config.appVer %> - <%= grunt.template.today("yyyy-mm-dd") %> */'
-      },
-      release: {
-        files : {
-          '<%= config.build.app %>/css/<%= config.baseFilename %>.min.css' : ['<%= config.build.app %>/css/<%= config.baseFilename %>.css'],
-        }
-      }
     },
 
     hashres: {
@@ -362,7 +356,6 @@ module.exports = function (grunt) {
     'replace:dev',
     'scriptlinker:vendor',
     'scriptlinker:srcJs',
-    'scriptlinker:srcCss',
     'shell:devSymlink',
   ]);
 
@@ -371,10 +364,10 @@ module.exports = function (grunt) {
     'jshint',
     'clean',
     'bower',
+    'less:build',
     'ngtemplates:build',
     'concat:vendor',
     'concat:src',
-    'concat:css',
     'copy:assets',
   ]);
 
