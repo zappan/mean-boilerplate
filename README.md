@@ -37,8 +37,14 @@ as its unique value.
 ## Out of the Box configured features:
 
 * Configured Express 4.0 app with routing, controllers and MongoDB data access
-* MongoDB passthrough API to access data through direct mapping routes to
-  MongoDB collections to kick-start your development
+* Wired-up Angular application initialization, data fetching functionality,
+  and serving the homepage as a starting point for further development
+* LESS wired-up as a CSS preprocessor
+  ([Why not SASS?](docs/TechnicalDetails.md#choosing-less-over-sass))
+* Build automation
+* MongoDB passthrough API:
+  * access data through direct mapping routes to MongoDB collections to
+    kick-start your development
 * Single Page Applications (SPA) support:
   * serving the application shell for `text/html` requests
   * serving JSON API data for `application/json` requests
@@ -46,8 +52,6 @@ as its unique value.
     API to share the same URLs with transparent serving of the proper content
 * JSON API inspection from the browser through request type override
   * use `?format=json` query string parameter to fetch the API data in the browser
-* Wired-up Angular application initialization, data fetching functionality,
-  and serving the homepage as a starting point for further development
 * Modular approach to Angular application structuring, based on ideas from
   the following articles:
   [[1](http://cliffmeyers.com/blog/2013/4/21/code-organization-angularjs-javascript),
@@ -56,11 +60,8 @@ as its unique value.
   [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
 * Automatic client-side app rebuild through a watcher on new or deleted source
   files or vendor libs, or application shell HTML changes
-* LESS wired-up as a CSS preprocessor
-  ([Why not SASS?](docs/TechnicalDetails.md#choosing-less-over-sass))
-* _[Coming soon]:_ Wired-up server-side and client-side BDD style testing
-  built into build automation chains
-* Build automation
+* Wired-up server-side and client-side BDD style testing and chained into
+  build automation
 
 
 ## Prerequisites
@@ -98,8 +99,8 @@ as server is serving `client/src/` content directly (as it's symlinked).
 
 ## Grunt Build Chains
 
-* `$ grunt dev` - development build - also a default task `$ grunt`
-* `$ grunt debug` - debug build.
+* `$ grunt dev`     - development build - also a default task `$ grunt`
+* `$ grunt debug`   - debug build.
 * `$ grunt release` - production build
 
 Results of _debug_ and _release_ builds are compiled client-side assets that are
@@ -109,6 +110,22 @@ That allows the flexibility of CI and deployment automation, which may publish
 assets to CDN and use reverse proxy (or some other method) for serving those
 static files without actually hitting the Express app, with having Express app
 ready to serve those assets as well.
+
+
+#### Additional Grunt Tasks
+
+By default, _dev_ build chain runs tests on every change. Client-side tests are
+run using [PhantomJS](http://phantomjs.org/) headles browser, and server-side
+tests are exectued using _MochaTest_ runner, both reporting to console.
+
+Still, some people like to have a GUI browser opened to check the client-side
+tests results, or wish to run tests manually. For those, there are the following
+tasks defined:
+
+* `$ grunt karma:dev`  - runs client-side tests _continuously_ in Chrome browser
+* `$ grunt testClient` - runs client-side tests once using PhantomJS
+* `$ grunt testServer` - runs server-side tests once using MochaTest
+* `$ grunt testRun`    - runs the above 2 single-run tests combined
 
 
 ## Configuration
@@ -147,6 +164,7 @@ More technical details can be found in a [separate document](docs/TechnicalDetai
 ## History
 
 
+  * **0.2.0** - [2014-04-20] Configured TDD and chained into build automation
   * **0.1.2** - [2014-04-20] Configured Grunt watchers on app shell changes and
     added/removed JS source files and vendor libs
   * **0.1.1** - [2014-04-20] Wired up LESS as a CSS preprocessor

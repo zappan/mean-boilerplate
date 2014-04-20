@@ -72,6 +72,16 @@ module.exports = function (grunt) {
         tasks: ['replace:dev', 'scriptlinker:srcJs', 'scriptlinker:vendor', 'notify:devrebuild'],
         options: { event: ['added', 'deleted'], },
       },
+      clientTdd: {
+        files: ['client/src/js/**/*.js', 'client/test/**/*.js'],
+        tasks: ['karma:singleRun'],
+        options: { event: ['all'], },
+      },
+      serverTdd: {
+        files: ['server/src/**/*.js', 'server/test/**/*.js'],
+        tasks: ['mochaTest'],
+        options: { event: ['all'], },
+      },
       bower: {
         files: ['bower_components'],
         tasks: ['bower'],
