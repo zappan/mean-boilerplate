@@ -42,8 +42,16 @@ as its unique value.
 * LESS wired-up as a CSS preprocessor
   ([Why not SASS?](docs/TechnicalDetails.md#choosing-less-over-sass))
 * Build automation
+* Server-side and client-side BDD style testing wired-up and chained into
+  build automation
+* Modular approach to Angular application structuring, based on ideas from
+  the following articles:
+  [[1](http://cliffmeyers.com/blog/2013/4/21/code-organization-angularjs-javascript),
+  [2](http://www.artandlogic.com/blog/2013/05/ive-been-doing-it-wrong-part-1-of-3/),
+  [3](https://medium.com/opinionated-angularjs/9f01b594bf06),
+  [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
 * MongoDB passthrough API:
-  * access data through direct mapping routes to MongoDB collections to
+  * access data through direct routes to MongoDB collections mapping to
     kick-start your development
 * Single Page Applications (SPA) support:
   * serving the application shell for `text/html` requests
@@ -52,16 +60,8 @@ as its unique value.
     API to share the same URLs with transparent serving of the proper content
 * JSON API inspection from the browser through request type override
   * use `?format=json` query string parameter to fetch the API data in the browser
-* Modular approach to Angular application structuring, based on ideas from
-  the following articles:
-  [[1](http://cliffmeyers.com/blog/2013/4/21/code-organization-angularjs-javascript),
-  [2](http://www.artandlogic.com/blog/2013/05/ive-been-doing-it-wrong-part-1-of-3/),
-  [3](https://medium.com/opinionated-angularjs/9f01b594bf06),
-  [4](http://henriquat.re/modularizing-angularjs/modularizing-angular-applications/modularizing-angular-applications.html)]
 * Automatic client-side app rebuild through a watcher on new or deleted source
   files or vendor libs, or application shell HTML changes
-* Wired-up server-side and client-side BDD style testing and chained into
-  build automation
 
 
 ## Prerequisites
