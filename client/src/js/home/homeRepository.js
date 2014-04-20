@@ -1,6 +1,4 @@
-/* global MeanBoilerplateApp */
-
-MeanBoilerplateApp.Location = (function() {
+MeanBpApp.Location = (function() {
   var homeModule = angular.module('meanbpapp.home');
 
   homeModule.factory('HomeRepository', ['$http', function ($http) {

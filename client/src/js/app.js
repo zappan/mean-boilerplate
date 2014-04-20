@@ -10,11 +10,11 @@
 // Origin: http://stackoverflow.com/questions/17082092/
 
 // ##### Namespaces definitions
-var MeanBoilerplateApp;
-MeanBoilerplateApp = MeanBoilerplateApp || {};
+var MeanBpApp;
+MeanBpApp = MeanBpApp || {};
 
 // ##### Global app definition; handles all global behaviour
-MeanBoilerplateApp.start = (function() {
+MeanBpApp.start = (function() {
   var start, init;
 
   // ### create common modules

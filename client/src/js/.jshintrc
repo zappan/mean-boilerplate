@@ -21,5 +21,6 @@
         "_"         : true
       , "angular"   : true
       , "require"   : true
+      , "MeanBpApp" : true
   }
 }

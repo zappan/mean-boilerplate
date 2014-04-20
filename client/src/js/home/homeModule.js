@@ -1,6 +1,4 @@
-/* global MeanBoilerplateApp */
-
-MeanBoilerplateApp.Home = (function() {
+MeanBpApp.Home = (function() {
   var homeModule = angular.module('meanbpapp.home', ['ngRoute', 'ngResource']);
 
   homeModule.config(['$routeProvider', function ($routeProvider) {

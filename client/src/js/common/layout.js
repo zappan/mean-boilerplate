@@ -1,6 +1,4 @@
-/* global MeanBoilerplateApp */
-
-MeanBoilerplateApp.Layout = (function() {
+MeanBpApp.Layout = (function() {
   var layout = angular.module('meanbpapp.layout', []);
 
   layout.directive('content', [function() {

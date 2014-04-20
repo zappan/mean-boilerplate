@@ -34,6 +34,6 @@
       , "should"      : true
       , "sinon"       : true
       , "angular"     : true
-      , "Octobit"     : true
+      , "MeanBpApp"   : true
     }
 }
