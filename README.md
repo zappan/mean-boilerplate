@@ -115,7 +115,7 @@ ready to serve those assets as well.
 #### Additional Grunt Tasks
 
 By default, _dev_ build chain runs tests on every change. Client-side tests are
-run using [PhantomJS](http://phantomjs.org/) headles browser, and server-side
+run using [PhantomJS](http://phantomjs.org/) headless browser, and server-side
 tests are exectued using _MochaTest_ runner, both reporting to console.
 
 Still, some people like to have a GUI browser opened to check the client-side
@@ -164,6 +164,7 @@ More technical details can be found in a [separate document](docs/TechnicalDetai
 ## History
 
 
+  * **0.2.1** - [2014-04-21] Update grunt-bower dependency for a bugfix required here
   * **0.2.0** - [2014-04-20] Configured TDD and chained into build automation
   * **0.1.2** - [2014-04-20] Configured Grunt watchers on app shell changes and
     added/removed JS source files and vendor libs

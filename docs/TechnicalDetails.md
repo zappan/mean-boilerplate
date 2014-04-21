@@ -20,8 +20,8 @@ Bower is used to easily fetch client-side dependencies, and update them later on
 
 Still, the repository is configured that client-side dependencies get pushed to
 the repository, but after being preprocessed with `grunt bower` task, picking up
-only dist files into `client/vendor/`. The reason for that is to explicitly present
-the organization/structure of the `client/` directory.
+only dist files into `client/vendor/` and `client/test/vendor/`. The reason for
+that is to explicitly lay out the organization/structure of the `client/` directory.
 
 If you wish to change that behavior, just adjust `.gitignore` file to your needs.
 
