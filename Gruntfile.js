@@ -269,7 +269,7 @@ module.exports = function (grunt) {
 
     cssmin: {
       options: {
-        banner: '/*! <%= config.appName %> - v<%= config.appVer %> - <%= grunt.template.today("yyyy-mm-dd") %> */'
+        banner: '/*! <%= config.appName %> - v<%= config.appVer %> */'
       },
       release: {
         files : {
@@ -281,7 +281,7 @@ module.exports = function (grunt) {
     // minifying app js-file on release
     uglify: {
       options: {
-        banner: '/*! <%= config.appName %> - v<%= config.appVer %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        banner: '/*! <%= config.appName %> - v<%= config.appVer %> */\n',
         beautify: false,
       },
       release: {
