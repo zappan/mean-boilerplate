@@ -1,7 +1,7 @@
 MeanBpApp.Layout = (function() {
   var layout = angular.module('meanbpapp.layout', []);
 
-  layout.directive('content', [function() {
+  layout.directive('content', function() {
     return {
       restrict: 'E',
       transclude: true,
@@ -9,7 +9,7 @@ MeanBpApp.Layout = (function() {
         return attrs.templateUrl || '/assets/src/templates/common/layout.html';
       }
     };
-  }]);
+  });
 
   return layout;
 }());

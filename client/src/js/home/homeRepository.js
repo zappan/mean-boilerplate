@@ -1,7 +1,7 @@
 MeanBpApp.Location = (function() {
   var homeModule = angular.module('meanbpapp.home');
 
-  homeModule.factory('HomeRepository', ['$http', function ($http) {
+  homeModule.factory('HomeRepository', function ($http) {
 
     return {
 
@@ -13,7 +13,7 @@ MeanBpApp.Location = (function() {
         return $http.get(['/home', id].join('/'));
       },
     };
-  }]);
+  });
 
   return homeModule;
 }());

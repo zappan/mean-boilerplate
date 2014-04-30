@@ -44,12 +44,12 @@ MeanBpApp.start = (function() {
     var app = angular.module('meanbpapp.app', ['ngRoute']);
 
     // global routing
-    app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    app.config(function ($routeProvider, $locationProvider) {
       $locationProvider.html5Mode(true).hashPrefix('!');
       $routeProvider
          // @TODO app-wide undefined route fallback should redirect to 404 page
         .otherwise({ redirectTo: '/' });  // fallback route redirects home
-    }]);
+    });
 
     return app;
   };
