@@ -278,6 +278,14 @@ module.exports = function (grunt) {
       }
     },
 
+    // pre-minifying angular definitions on release
+    ngmin: {
+      release: {
+        src : '<%= config.build.app %>/js/<%= config.baseFilename %>.js',
+        dest: '<%= config.build.app %>/js/<%= config.baseFilename %>.js',
+      }
+    },
+
     // minifying app js-file on release
     uglify: {
       options: {
@@ -425,6 +433,7 @@ module.exports = function (grunt) {
   // builds app, adds r.js, minifies app and CSS, hooks release paths into HTML app shell, prepares static assets
   grunt.registerTask('releaseBuild', [
     '_buildApp',
+    'ngmin',
     'uglify',
     'cssmin',
     'replace:release',
