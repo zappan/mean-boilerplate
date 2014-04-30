@@ -164,6 +164,8 @@ More technical details can be found in a [separate document](docs/TechnicalDetai
 ## History
 
 
+  * **0.3.0** - [2014-04-30] Added ngmin to the release build chain; allowing
+    shorter Angular initializers (without '[]' notation)
   * **0.2.1** - [2014-04-21] Update grunt-bower dependency for a bugfix required here
   * **0.2.0** - [2014-04-20] Configured TDD and chained into build automation
   * **0.1.2** - [2014-04-20] Configured Grunt watchers on app shell changes and
